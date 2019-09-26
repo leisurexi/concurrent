@@ -8,7 +8,8 @@ import java.util.concurrent.locks.Lock;
 /**
  * Created with IntelliJ IDEA.
  * Description: 自定义独占锁示例
- * 独占锁: 就是在同一时刻只能有一个线程获取到锁，而其他获取锁的线程只能处于同步队列中等待，只有获取锁的线程释放了锁，后继的线程才能够获取锁。
+ * 独占锁: 就是在同一时刻只能有一个线程获取到锁，而其他获取锁的线程只能处于同步队列中等待，
+ * 只有获取锁的线程释放了锁，后继的线程才能够获取锁。
  * User: leisurexi
  * Date: 2019-09-22
  * Time: 21:20
