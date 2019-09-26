@@ -16,8 +16,12 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1Qgx6IXcCcoqgcda5iYbH8hIsr7" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -132,7 +136,7 @@
       <workItem from="1568211089486" duration="1232000" />
       <workItem from="1568508208358" duration="3286000" />
       <workItem from="1568529444499" duration="256000" />
-      <workItem from="1568973120424" duration="32476000" />
+      <workItem from="1568973120424" duration="32756000" />
     </task>
     <servers />
   </component>
