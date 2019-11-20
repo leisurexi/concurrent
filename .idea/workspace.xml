@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db2c0a5e-ecf9-4902-b287-54ce5c79dc07" name="Default Changelist" comment="==&gt; leisurexi">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/leisurexi/concurrent/threadpool/CustomThreadPool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/leisurexi/concurrent/threadpool/CustomerThreadPoolTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/leisurexi/concurrent/threadpool/Notify.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/lock/ExclusiveLock$Sync.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/lock/ExclusiveLock$Sync.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/lock/ExclusiveLock.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/lock/ExclusiveLock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/lock/UnsafeLazyInitialization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState$Blocked.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState$Blocked.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState$TimeWaiting.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState$TimeWaiting.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState$Waiting.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState$Waiting.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/leisurexi/concurrent/thread/ThreadState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/leisurexi/concurrent/threadpool/CustomThreadPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/leisurexi/concurrent/threadpool/CustomThreadPool.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +44,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -70,7 +63,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.AtomicIntegerFieldUpdaterDemo">
+  <component name="RunManager" selected="Application.CustomerThreadPoolTest">
     <configuration name="AtomicIntegerFieldUpdaterDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.leisurexi.concurrent.atomic.AtomicIntegerFieldUpdaterDemo" />
       <module name="concurrent" />
@@ -84,12 +77,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PutTaskTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.leisurexi.concurrent.test.PutTaskTest" />
+    <configuration name="CustomerThreadPoolTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.leisurexi.concurrent.threadpool.CustomerThreadPoolTest" />
       <module name="concurrent" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.leisurexi.concurrent.test.*" />
+          <option name="PATTERN" value="com.leisurexi.concurrent.threadpool.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -146,19 +139,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.PutTaskTest" />
       <item itemvalue="Application.AtomicIntegerFieldUpdaterDemo" />
       <item itemvalue="JUnit.BoundBufferTest.testGrumpyBoundedBuffer" />
       <item itemvalue="JUnit.BoundBufferTest.testSleepyBoundedBuffer" />
       <item itemvalue="JUnit.BoundBufferTest.testBoundedBuffer" />
+      <item itemvalue="Application.CustomerThreadPoolTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CustomerThreadPoolTest" />
         <item itemvalue="Application.AtomicIntegerFieldUpdaterDemo" />
         <item itemvalue="JUnit.BoundBufferTest.testBoundedBuffer" />
         <item itemvalue="JUnit.BoundBufferTest.testSleepyBoundedBuffer" />
         <item itemvalue="JUnit.BoundBufferTest.testGrumpyBoundedBuffer" />
-        <item itemvalue="Application.PutTaskTest" />
       </list>
     </recent_temporary>
   </component>
@@ -194,7 +187,8 @@
       <workItem from="1570334730986" duration="17733000" />
       <workItem from="1570889904317" duration="603000" />
       <workItem from="1570933819940" duration="10000" />
-      <workItem from="1574172233829" duration="867000" />
+      <workItem from="1574172233829" duration="1081000" />
+      <workItem from="1574252110877" duration="4293000" />
     </task>
     <task id="LOCAL-00001" summary="==&gt; leisurexi">
       <created>1569506469393</created>
@@ -301,7 +295,21 @@
       <option name="project" value="LOCAL" />
       <updated>1570458840357</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="==&gt; leisurexi">
+      <created>1574174118835</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1574174118835</updated>
+    </task>
+    <task id="LOCAL-00017" summary="==&gt; leisurexi">
+      <created>1574174147218</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1574174147218</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
