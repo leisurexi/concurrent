@@ -305,10 +305,11 @@ public class CustomThreadPool {
                 e.printStackTrace();
             } finally {
                 //释放线程
-                boolean result = workers.remove(this);
+                workers.remove(this);
                 if (!compile) {
-
+                    addWorker(null);
                 }
+                tryClose(true);
             }
         }
     }
