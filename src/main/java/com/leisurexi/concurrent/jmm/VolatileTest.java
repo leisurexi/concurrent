@@ -1,4 +1,4 @@
-package com.leisurexi.concurrent.keyword;
+package com.leisurexi.concurrent.jmm;
 
 import lombok.extern.slf4j.Slf4j;
 
