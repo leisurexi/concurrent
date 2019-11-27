@@ -4,28 +4,24 @@ import java.sql.Connection;
 import java.util.LinkedList;
 
 /**
- * Created with IntelliJ IDEA.
- * Description:
- * User: leisurexi
- * Date: 2019-09-21
- * Time: 21:11
+ * @author: leisurexi
+ * @date: 2019-11-27 9:55 下午
+ * @description:
+ * @since JDK 1.8
  */
 public class ConnectionPool {
 
     private LinkedList<Connection> pool = new LinkedList<>();
 
     public ConnectionPool(int initialSize) {
-        if (initialSize > 0) {
-            for (int i = 0; i < initialSize; i++) {
-                pool.addLast(ConnectionDriver.createConnection());
-            }
+        if (initialSize < 1) {
+            throw new IllegalArgumentException("initialSize must be more than 0");
+        }
+        for (int i = 0; i < initialSize; i++) {
+            pool.addLast(ConnectionDriver.createConnection());
         }
     }
 
-    /**
-     * 释放连接，将连接重新放入池中
-     * @param connection
-     */
     public void releaseConnection(Connection connection) {
         if (connection != null) {
             synchronized (pool) {
@@ -37,7 +33,7 @@ public class ConnectionPool {
     }
 
     /**
-     * 在mills内无法获取到连接，将会返回null
+     * 在mills内无法获取连接，将会返回null
      * @param mills
      * @return
      * @throws InterruptedException
@@ -45,7 +41,7 @@ public class ConnectionPool {
     public Connection fetchConnection(long mills) throws InterruptedException {
         synchronized (pool) {
             //完全超时
-            if (mills < 0) {
+            if (mills <= 0) {
                 while (pool.isEmpty()) {
                     pool.wait();
                 }
@@ -58,12 +54,13 @@ public class ConnectionPool {
                     remaining = future - System.currentTimeMillis();
                 }
                 Connection result = null;
-                if (!pool.isEmpty()) {
+                if(!pool.isEmpty()){
                     result = pool.removeFirst();
                 }
                 return result;
             }
         }
     }
+
 
 }

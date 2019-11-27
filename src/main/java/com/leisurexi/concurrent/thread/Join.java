@@ -1,19 +1,20 @@
 package com.leisurexi.concurrent.thread;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * Created with IntelliJ IDEA.
- * Description:
- * User: leisurexi
- * Date: 2019-09-20
- * Time: 20:38
+ * @author: leisurexi
+ * @date: 2019-11-27 9:33 下午
+ * @description: 利用Thread.join()方法，让10个线程顺序打印1到10
+ * @since JDK 1.8
  */
+@Slf4j
 public class Join {
 
     public static void main(String[] args) {
         Thread previous = Thread.currentThread();
-        for (int i = 0; i < 10; i++) {
-            //每个线程拥有前一个线程的引用，需要等待前一个线程终止，才能从等待中返回
-            Thread thread = new Thread(new Domino(previous), String.valueOf(i));
+        for (int i = 1; i <= 10; i++) {
+            Thread thread = new Thread(new Domino(previous, i));
             thread.start();
             previous = thread;
         }
@@ -22,9 +23,11 @@ public class Join {
     static class Domino implements Runnable {
 
         private Thread thread;
+        private int i;
 
-        public Domino(Thread thread) {
+        public Domino(Thread thread, int i) {
             this.thread = thread;
+            this.i = i;
         }
 
         @Override
@@ -34,7 +37,7 @@ public class Join {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(Thread.currentThread().getName() + " terminate.");
+            log.info(String.valueOf(i));
         }
     }
 
