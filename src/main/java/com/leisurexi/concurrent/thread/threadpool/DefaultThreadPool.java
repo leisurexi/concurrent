@@ -7,45 +7,62 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Created with IntelliJ IDEA.
- * Description:
- * User: leisurexi
- * Date: 2019-09-21
- * Time: 21:57
+ * @author: leisurexi
+ * @date: 2019-11-28 8:32 下午
+ * @description:
+ * @since JDK 1.8
  */
 public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> {
 
-    //线程池最大限制数
+    /**
+     * 线程池最大限制数
+     */
     private static final int MAX_WORKER_NUMBERS = 10;
 
-    //线程池默认的数量
+    /**
+     * 线程池默认的数量
+     */
     private static final int DEFAULT_WORKER_NUMBERS = 5;
 
-    //线程池最小的数量
+    /**
+     * 线程池最小的数量
+     */
     private static final int MIN_WORKER_NUMBERS = 1;
 
-    //这是一个工作列表，将会向里面插入工作
+    /**
+     * 这是一个工作列表，将会向里面插入工作
+     */
     private final LinkedList<Job> jobs = new LinkedList<>();
 
-    //工作者列表
+    /**
+     * 工作者列表
+     */
     private final List<Worker> workers = Collections.synchronizedList(new ArrayList<>());
 
-    //工作者线程的数量
+    /**
+     * 工作者线程的数量
+     */
     private int workerNum = DEFAULT_WORKER_NUMBERS;
 
-    //线程编号生成
+    /**
+     * 线程编号生成
+     */
     private AtomicLong threadNum = new AtomicLong();
 
     public DefaultThreadPool() {
         initializeWorkers(DEFAULT_WORKER_NUMBERS);
     }
 
-    public DefaultThreadPool(int workerNum) {
-        this.workerNum = workerNum > MAX_WORKER_NUMBERS ? MAX_WORKER_NUMBERS
-                : workerNum < MIN_WORKER_NUMBERS ? MIN_WORKER_NUMBERS : workerNum;
+    public DefaultThreadPool(int num) {
+        workerNum = num > MAX_WORKER_NUMBERS ? MAX_WORKER_NUMBERS : num < MIN_WORKER_NUMBERS ? MIN_WORKER_NUMBERS : num;
+        initializeWorkers(workerNum);
     }
 
-    //初始化线程工作者
+    /**
+     * 初始化工作者线程
+     *
+     * @param num
+     */
     private void initializeWorkers(int num) {
         for (int i = 0; i < num; i++) {
             Worker worker = new Worker();
@@ -77,21 +94,21 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
     public void addWorkers(int num) {
         synchronized (jobs) {
             //限制新增的Worker数量不能超过最大值
-            if (num + this.workerNum > MAX_WORKER_NUMBERS) {
-                num = MAX_WORKER_NUMBERS - this.workerNum;
+            if (num + workerNum > MAX_WORKER_NUMBERS) {
+                num = MAX_WORKER_NUMBERS - workerNum;
             }
             initializeWorkers(num);
-            this.workerNum += num;
+            workerNum += num;
         }
     }
 
     @Override
-    public void removeWorker(int num) {
+    public void removeWorkers(int num) {
         synchronized (jobs) {
-            if (num >= this.workerNum) {
-                throw new IllegalArgumentException("beyond workNum");
+            if (num >= workerNum) {
+                throw new IllegalArgumentException("num must be less than workNum");
             }
-            //按照给定的数量停止Worker
+            //按照指定的数量停止Worker
             int count = 0;
             while (count < num) {
                 Worker worker = workers.get(count);
@@ -100,7 +117,7 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
                     count++;
                 }
             }
-            this.workerNum -= count;
+            workerNum -= count;
         }
     }
 
@@ -109,18 +126,19 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
         return jobs.size();
     }
 
-    //工作者，负责消费任务
+    /**
+     * 工作者，负责消费任务
+     */
     class Worker implements Runnable {
-
-        //是否在工作
+        //是否工作
         private volatile boolean running = true;
 
         @Override
         public void run() {
             while (running) {
-                Job job;
+                Job job = null;
                 synchronized (jobs) {
-                    //如果工作列表是空的，那么就wait
+                    //如果工作者列表是空的，那么就wait
                     while (jobs.isEmpty()) {
                         try {
                             jobs.wait();
@@ -137,6 +155,7 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
                     try {
                         job.run();
                     } catch (Exception e) {
+                        //忽略Job执行中的Exception
                         e.printStackTrace();
                     }
                 }

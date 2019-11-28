@@ -5,27 +5,29 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Created with IntelliJ IDEA.
- * Description:
- * User: leisurexi
- * Date: 2019-09-21
- * Time: 22:42
+ * @author: leisurexi
+ * @date: 2019-11-28 9:20 下午
+ * @description:
+ * @since JDK 1.8
  */
 public class SimpleHttpServer {
 
-    //处理HttpRequest的线程池
+    /**
+     * 处理HttpRequest的线程池
+     */
     static ThreadPool<HttpRequestHandler> threadPool = new DefaultThreadPool<>(1);
-    //SimpleHttpServer的根路径
-    static String basePath;
-    static ServerSocket serverSocket;
-    //服务端监听端口
-    static int port = 8080;
 
-    public static void setBasePath(String basePath) {
-        if (basePath != null && new File(basePath).exists() && new File(basePath).isDirectory()) {
-            SimpleHttpServer.basePath = basePath;
-        }
-    }
+    /**
+     * SimpleHttpServer的根路径
+     */
+    private static String basePath;
+
+    private static ServerSocket serverSocket;
+
+    /**
+     * 服务监听端口
+     */
+    private static int port = 8080;
 
     public static void setPort(int port) {
         if (port > 0) {
@@ -33,10 +35,19 @@ public class SimpleHttpServer {
         }
     }
 
-    //启动SimpleHttpServer
+    public static void setBasePath(String basePath) {
+        File file = new File(basePath);
+        if (basePath != null && file.exists() && file.isDirectory()) {
+            SimpleHttpServer.basePath = basePath;
+        }
+    }
+
+    /**
+     * 启动SimpleHttpServer
+     */
     public static void start() throws IOException {
-        serverSocket = new ServerSocket(SimpleHttpServer.port);
-        Socket socket;
+        serverSocket = new ServerSocket(port);
+        Socket socket = null;
         while ((socket = serverSocket.accept()) != null) {
             //接收一个客户端Socket，生成一个HttpRequestHandler，放入线程池执行
             threadPool.execute(new HttpRequestHandler(socket));
@@ -45,7 +56,6 @@ public class SimpleHttpServer {
     }
 
     static class HttpRequestHandler implements Runnable {
-
         private Socket socket;
 
         public HttpRequestHandler(Socket socket) {
@@ -54,7 +64,7 @@ public class SimpleHttpServer {
 
         @Override
         public void run() {
-            String line;
+            String line = null;
             BufferedReader br = null;
             BufferedReader reader = null;
             PrintWriter out = null;
@@ -65,7 +75,7 @@ public class SimpleHttpServer {
                 //由相对路径计算出绝对路径
                 String filePath = basePath + header.split(" ")[1];
                 out = new PrintWriter(socket.getOutputStream());
-                //如果请求资源的后缀为jpg或者ico，则读取资源并输出
+                //如果请求资源的后缀为jpg或ico，则读取资源并输出
                 if (filePath.endsWith("jpg") || filePath.endsWith("ico")) {
                     in = new FileInputStream(filePath);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -85,7 +95,7 @@ public class SimpleHttpServer {
                     out = new PrintWriter(socket.getOutputStream());
                     out.println("HTTP/1.1 200 OK");
                     out.println("Server: Molly");
-                    out.println("Content: text/html; charset=UTF-8");
+                    out.println("Content-Type: text/html; charset=UTF-8");
                     out.println("");
                     while ((line = br.readLine()) != null) {
                         out.println(line);
@@ -103,17 +113,26 @@ public class SimpleHttpServer {
         }
     }
 
-    //关闭流或者Socket
+    /**
+     * 关闭流或者Socket
+     */
     private static void close(Closeable... closeables) {
         if (closeables != null) {
-            try {
-                for (Closeable closeable : closeables) {
-                    closeable.close();
+            for (Closeable closeable : closeables) {
+                if (closeable != null) {
+                    try {
+                        closeable.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        SimpleHttpServer.setBasePath("/Users/leisurexi/IdeaProjects/concurrent/src/main/resources");
+        SimpleHttpServer.start();
     }
 
 }
