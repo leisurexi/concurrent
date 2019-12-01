@@ -1,6 +1,5 @@
 package com.leisurexi.concurrent.lock;
 
-import com.leisurexi.concurrent.thread.threadpool.ThreadPool;
 import com.leisurexi.concurrent.util.SleepUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +23,7 @@ public class BoundedQueue<T> {
      * 添加的下标，删除的下标和数组当前数量
      */
     private int addIndex, removeIndex, count;
-    private Lock lock = new ReentrantLock();
+    private ReentrantLock lock = new ReentrantLock();
     private Condition notEmpty = lock.newCondition();
     private Condition notFull = lock.newCondition();
 

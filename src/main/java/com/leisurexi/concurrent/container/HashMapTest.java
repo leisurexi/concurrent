@@ -3,13 +3,13 @@ package com.leisurexi.concurrent.container;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created with IntelliJ IDEA.
- * Description: 多线程情况下HashMap死循环示例
- * User: leisurexi
- * Date: 2019-09-25
- * Time: 20:34
+ * @author: leisurexi
+ * @date: 2019-11-30 10:38 下午
+ * @description: 多线程情况下，HashMap死循环实例
+ * @since JDK 1.8
  */
 public class HashMapTest {
 
@@ -32,5 +32,6 @@ public class HashMapTest {
         thread.join();
         System.out.println(map.size());
     }
+
 
 }

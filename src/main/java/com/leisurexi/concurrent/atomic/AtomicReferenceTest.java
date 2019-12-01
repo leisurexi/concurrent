@@ -1,42 +1,36 @@
 package com.leisurexi.concurrent.atomic;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Created with IntelliJ IDEA.
- * Description: 原子更新引用类型示例
- * User: leisurexi
- * Date: 2019-09-26
- * Time: 22:45
+ * @author: leisurexi
+ * @date: 2019-12-01 1:25 下午
+ * @description: 原子更新引用类型示例
+ * @since JDK 1.8
  */
+@Slf4j
 public class AtomicReferenceTest {
 
-    public static AtomicReference<User> userAtomicReference = new AtomicReference<>();
+    private static AtomicReference<User> userAtomicReference = new AtomicReference<>();
 
     public static void main(String[] args) {
-        User user = new User("leisurexi", 22);
+        User user = new User("leisurexi", 21);
         userAtomicReference.set(user);
-        User updateUser = new User("xidada", 18);
+        User updateUser = new User("xidada", 22);
         userAtomicReference.compareAndSet(user, updateUser);
-        System.out.println(userAtomicReference.get().getName());
-        System.out.println(userAtomicReference.get().getAge());
+        log.info("姓名: {}", userAtomicReference.get().getName());
+        log.info("年龄: {}", userAtomicReference.get().getAge());
     }
 
-    static class User {
+    @Getter
+    @AllArgsConstructor
+    private static class User {
         private String name;
         private int age;
-
-        public User(String name, int age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getAge() {
-            return age;
-        }
     }
+
 }
