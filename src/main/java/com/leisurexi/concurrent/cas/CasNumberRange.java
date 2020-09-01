@@ -3,16 +3,17 @@ package com.leisurexi.concurrent.cas;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Created with IntelliJ IDEA.
- * Description: 通过CAS来维持包含多个变量的不变性条件
- * User: leisurexi
- * Date: 2019-10-06
- * Time: 6:20 下午
+ * @author: leisurexi
+ * @date: 2020-02-20 19:59
+ * @description: 通过CAS来维持包含多个变量的不变性条件
+ * @since JDK 1.8
  */
 public class CasNumberRange {
 
     private static class IntPair {
-        //不变性条件: lower <= upper
+        /**
+         * 不变性条件：lower <= upper
+         */
         final int lower;
         final int upper;
 
@@ -34,12 +35,12 @@ public class CasNumberRange {
 
     public void setLower(int i) {
         while (true) {
-            IntPair oldv = values.get();
-            if (i > oldv.upper) {
+            IntPair oldV = values.get();
+            if (i > oldV.upper) {
                 throw new IllegalArgumentException("Can't set lower to " + i + " > upper");
             }
-            IntPair newv = new IntPair(i, oldv.upper);
-            if (values.compareAndSet(oldv, newv)) {
+            IntPair newV = new IntPair(i, oldV.upper);
+            if (values.compareAndSet(oldV, newV)) {
                 return;
             }
         }
@@ -47,12 +48,12 @@ public class CasNumberRange {
 
     public void setUpper(int i) {
         while (true) {
-            IntPair oldv = values.get();
-            if (i <= oldv.lower) {
-                throw new IllegalArgumentException("Can't set upper to " + i + " <= lower");
+            IntPair oldV = values.get();
+            if (i < oldV.lower) {
+                throw new IllegalArgumentException("Can't set upper to " + i + " < lower");
             }
-            IntPair newv = new IntPair(oldv.lower, i);
-            if (values.compareAndSet(oldv, newv)) {
+            IntPair newV = new IntPair(oldV.lower, i);
+            if (values.compareAndSet(oldV, newV)) {
                 return;
             }
         }

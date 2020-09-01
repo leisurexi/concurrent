@@ -1,4 +1,4 @@
-package com.leisurexi.concurrent.util;
+package com.leisurexi.concurrent.tool;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,13 +6,11 @@ import java.util.Set;
 import java.util.concurrent.Semaphore;
 
 /**
- * Created with IntelliJ IDEA.
- * Description: Semaphore示例，将Set变成有界阻塞容器。信号量的技术支持会初始化容器的最大值。add操作在向底层容器中添加一个元素
- * 之前，首先要获取一个许可。如果add操作没有添加任何元素，那么会立刻释放许可。同样，remove操作释放一个许可，使更多的元素能够
- * 添加到容器中。
- * User: leisurexi
- * Date: 2019-10-03
- * Time: 22:32
+ * @author: leisurexi
+ * @date: 2020-02-15 10:48
+ * @description: Semaphore示例，将Set变成有界阻塞容器。信号量的计数值会初始化容器的最大值。add操作在向底层容器中添加一个元素
+ * 之前，首先要获取一个许可。如果add操作没有添加任何元素，那么会立刻释放许可。同样，remove操作释放一个许可，使更多的元素能够添加到容器中。
+ * @since JDK 1.8
  */
 public class BoundedHashSet<T> {
 
@@ -21,14 +19,14 @@ public class BoundedHashSet<T> {
 
     public BoundedHashSet(int bound) {
         this.set = Collections.synchronizedSet(new HashSet<>());
-        sem = new Semaphore(bound);
+        this.sem = new Semaphore(bound);
     }
 
-    public boolean add(T t) throws InterruptedException {
+    public boolean add(T o) throws InterruptedException {
         sem.acquire();
         boolean wasAdded = false;
         try {
-            wasAdded = set.add(t);
+            wasAdded = set.add(o);
             return wasAdded;
         } finally {
             if (!wasAdded) {
@@ -46,10 +44,10 @@ public class BoundedHashSet<T> {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        BoundedHashSet<String> set = new BoundedHashSet<>(2);
-        set.add("a");
-        set.add("b");
-        set.add("c"); //由于容器已满，导致当前线程阻塞
+        BoundedHashSet<Integer> set = new BoundedHashSet<>(2);
+        set.add(1);
+        set.add(2);
+        set.add(3);  //由于容器已满，导致当前线程阻塞
     }
 
 }

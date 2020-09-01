@@ -1,20 +1,18 @@
-package com.leisurexi.concurrent.util;
+package com.leisurexi.concurrent.cache;
 
-import java.math.BigInteger;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * Created with IntelliJ IDEA.
- * Description: 一个缓存计算结果的示例。利用FutureTask防止重复计算，如果有结果可用，那么直接返回结果，否则就一直阻塞，
- * 直到结果计算出来再将其返回。
- *
- * User: leisurexi
- * Date: 2019-10-04
- * Time: 12:08
+ * @author: leisurexi
+ * @date: 2020-02-15 12:00
+ * @description: Memoizer3中存在这个重复计算结果的原因是，复核操作 “若没有则添加” 不具备原子性，
+ * Memoizer使用了ConcurrentMap中的原子方法putIfAbsent，避免了Memoizer3中的漏洞。
+ * @since JDK 1.8
  */
 public class Memoizer<A, V> implements Computable<A, V> {
 
-    private final ConcurrentHashMap<A, Future<V>> cache = new ConcurrentHashMap<>();
+    private final ConcurrentMap<A, Future<V>> cache = new ConcurrentHashMap<>();
     private final Computable<A, V> c;
 
     public Memoizer(Computable<A, V> c) {
@@ -34,25 +32,15 @@ public class Memoizer<A, V> implements Computable<A, V> {
                     futureTask.run();
                 }
             }
+
             try {
                 return future.get();
-            } catch (ExecutionException e) {
+            } catch (CancellationException e) {
                 cache.remove(arg, future);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-}
-
-interface Computable<A, V> {
-    V compute(A arg) throws InterruptedException;
-}
-
-class ExpensiveFunction implements Computable<String, BigInteger> {
-    @Override
-    public BigInteger compute(String arg) throws InterruptedException {
-        SleepUtils.second(5);
-        return new BigInteger(arg);
-    }
 }

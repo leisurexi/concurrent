@@ -3,11 +3,10 @@ package com.leisurexi.concurrent.cas;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Created with IntelliJ IDEA.
- * Description: 非阻塞链表
- * User: leisurexi
- * Date: 2019-10-06
- * Time: 7:09 下午
+ * @author: leisurexi
+ * @date: 2020-02-20 21:29
+ * @description:
+ * @since JDK 1.8
  */
 public class LinkedQueue<E> {
 
@@ -15,13 +14,12 @@ public class LinkedQueue<E> {
         final E item;
         final AtomicReference<Node<E>> next;
 
-        public Node(E item, AtomicReference<Node<E>> next) {
+        public Node(E item, Node<E> next) {
             this.item = item;
-            this.next = next;
+            this.next = new AtomicReference<>(next);
         }
     }
 
-    //哨兵节点
     private final Node<E> dummy = new Node<>(null, null);
     private final AtomicReference<Node<E>> head = new AtomicReference<>(dummy);
     private final AtomicReference<Node<E>> tail = new AtomicReference<>(dummy);
