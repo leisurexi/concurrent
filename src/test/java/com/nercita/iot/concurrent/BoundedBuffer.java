@@ -1,4 +1,4 @@
-package com.leisurexi.concurrent.test;
+package com.nercita.iot.concurrent;
 
 import java.util.concurrent.Semaphore;
 

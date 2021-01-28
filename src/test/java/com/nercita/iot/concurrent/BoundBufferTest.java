@@ -1,12 +1,7 @@
-package com.leisurexi.concurrent.test;
+package com.nercita.iot.concurrent;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author: leisurexi
