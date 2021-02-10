@@ -1,10 +1,9 @@
-package com.nercita.iot.concurrent;
+package com.leisurexi.concurrent.future;
 
 import com.leisurexi.concurrent.util.SleepUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 /**
